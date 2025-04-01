@@ -1,0 +1,21 @@
+services:
+  baame-admin:
+    build: .
+    container_name: baame-admin
+    image: baame-admin:1.0.0
+    ports:
+      - '3651:3651'
+    env_file:
+      - .env
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+    networks:
+      - baame_network
+
+networks:
+  baame_network:
+    name: baame_network

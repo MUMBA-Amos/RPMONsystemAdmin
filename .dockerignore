@@ -1,0 +1,12 @@
+
+.next
+.giit
+node_modules
+npm-debug.log
+out
+# .env
+playwrite
+playwrite-report
+test-results
+# src
+*.tar.*

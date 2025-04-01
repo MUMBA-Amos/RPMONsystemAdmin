@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Grey+Qo&display=swap,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"); */
+@layer base {
+  html {
+    font-family: 'Poppins', 'Montserrat', sans-serif;
+  }
+}
+* {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -ms-interpolation-mode: nearest-neighbor;
+  image-rendering: optimizeQuality;
+  text-rendering: optimizeLegibility;
+  font-family: 'Poppins', 'Montserrat', sans-serif;
+}
+
+body {
+  /* background-color: #f8f6f6c4;
+  font-size: 16px;
+  color: #6f6f6f; */
+  font-family: 'Poppins', sans-serif;
+  /* overflow: hidden; */
+}
+
+.cursive {
+  font-family: 'Grey Qo', cursive;
+}
+
+/* div {
+  position: relative;
+} */
+
+.css-13cymwt-control {
+  background-color: #d1d5db;
+}
+.cover-photo {
+  background: url('../../public/no-image.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.cover-overlay {
+  background-color: rgba(0, 0, 0, 0.37);
+}
+
+.PhoneInputInput {
+  padding: 0.4rem !important;
+  padding-block: 0.6rem !important;
+  border: 1px solid #e6e6e6;
+  border-radius: 0.3rem;
+  background-color: white;
+}
+.PhoneInputInput:focus {
+  border: 1px solid #e6e6e6;
+  outline: none;
+}
+.PhoneInput {
+  gap: 0.4rem !important;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 10px !important;
+  border-radius: 20px;
+  background-color: #d1d5db;
+}
+::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+.ant-table-content::-webkit-scrollbar-thumb {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 20px;
+
+  background-color: #d1d5db;
+}
+
+.ant-table-content::-webkit-scrollbar {
+  width: 2px !important;
+  height: 5px !important;
+}
+
+/* sidebar menu css */
+/* .ant-menu-item,
+.ant-menu-submenu-title {
+  padding-left: 8px !important;
+} */
+.ant-menu-sub {
+  /* padding-left: 24px !important; */
+  /* background: #DAA520 !important;  */
+}
+.ant-table-content,
+.ant-table-body {
+  overflow-x: auto !important;
+  /* min-height: 30vh !important; */
+}
+.ant-table-content table,
+.ant-table-body table {
+  white-space: nowrap !important;
+  table-layout: auto !important;
+}
+
+.ant-table-header table {
+  white-space: nowrap !important;
+  table-layout: auto !important;
+}
+
+.ant-table-placeholder {
+  z-index: 20 !important;
+}
+/* .ant-table-body{
+  max-height: 400px !important;
+  overflow: hidden !important;
+} */
+/* .ant-menu-root{
+background: #DAA520 !important;
+} */
+/* .ant-layout-content {
+height: 100rem !important;
+
+
+} */
+/* .ant-layout-content{
+  overflow-y: scroll;
+  height: 20rem;
+
+}  */
+.ant-switch {
+  background-color: grey;
+}
+/* .ant-menu-item-selected{
+  background: #fff !important;
+  color:  #DAA520 !important;;
+} */
+
+.ant-menu-sub .ant-menu-item-selected {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  color: #daa520 !important;
+}
+
+/* .ant-menu-item-active {
+  color: #DAA520 !important;
+} */
+
+/* .ant-menu {
+  border: none !important;
+} */
+
+.full {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.ant-layout-sider-light {
+  min-width: 100px !important;
+  width: 100px !important;
+  max-width: 100px !important;
+}
+
+/* START ANT TABLE CSS */
+.ant-table-wrapper {
+  overflow-y: unset !important;
+}
+
+.ant-table-header {
+  background: #d1d5db !important;
+}
+
+.ant-table-header .ant-table-cell {
+  font-size: 16px !important;
+  /* background-color: D1D5DB !important; */
+  border-bottom: 2px solid #f0f0f0 !important;
+}
+
+.ant-table-header .ant-table-cell::before {
+  background-color: #d6d4d4 !important;
+}
+.ant-table-content {
+  height: 100% !important;
+}
+
+.ant-table-tbody .ant-table-cell {
+  border-bottom: 1px solid #f0f0f0 !important;
+  font-weight: 300;
+  font-size: 14px;
+  color: #666;
+}
+
+.ant-table-header .ant-table-cell::before {
+  border-color: #d6d4d4 !important;
+}
+
+.ant-table-pagination.ant-pagination {
+  margin: unset !important;
+  margin-top: 10px !important;
+}
+
+.ant-table.ant-table-fixed-header {
+  /* min-height: 60vh !important; */
+}
+
+.ant-table-placeholder .ant-table-cell {
+  border-bottom: 0 !important;
+}
+
+/* END ANT TABLE CSS */
+
+/* .ap-body-container{
+  max-height: 70vh;
+  overflow-y: scroll;
+} */
+
+/* GLOBAL CSS FOR DELETE BUTTON MODAL */
+.bg-green {
+  background: green !important;
+}
+.ant-modal-title {
+  text-transform: uppercase !important;
+}
+.PhoneInputInput {
+  background-color: #d1d5db !important;
+}
+
+/* LOGO SIZE */
+
+.logoSize {
+  width: 100px;
+}
+
+/* SETTING THE FIXED NAV TO CURSOR POINTER */
+
+.cursor-pointer {
+  cursor: pointer;
+}
+/* .ant-menu-title-content:hover{
+  color: white !important;
+}
+.ant-menu-title-content{
+  color: white !important;
+} */
+/* .listtable{
+
+  width: 50%;
+border-collapse: collapse;
+}
+.listtable th, .listtable td{
+  padding: 8px;
+  border: 1px solid #D1D5DB;
+} */
+
+.ant-menu .ant-menu-overflow-item.ant-menu-item .ant-menu-item-icon {
+  vertical-align: -0.3em !important;
+}
+
+.dashboard-item .ant-table-wrapper .ant-table-thead > tr > th {
+  background: transparent !important;
+  border-top: 1px solid #f0f0f0 !important;
+  border-bottom: 1px solid #f0f0f0 !important;
+  border-radius: 0px !important;
+  background: #ff7d01;
+}
+
+.dashboard-item .ant-table-content::-webkit-scrollbar-thumb {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 20px !important;
+  background-color: #d1d5db;
+}
+
+.dashboard-item .ant-table-content::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+/* invoice */
+.invoice-table .ant-table-cell {
+  font-size: 10px; /* Adjust the font size as needed */
+  padding: 8px 8px !important;
+  color: black;
+  border-bottom: unset !important;
+  border-right: 1px solid black !important;
+}
+
+.invoice-table .ant-table-row:first {
+  border-top: 1px solid black !important;
+}
+
+.invoice-table .ant-table-cell:last-child {
+  border-right: unset !important;
+}
+
+.invoice-table .ant-table-tbody .ant-table-measure-row td {
+  border-top: 1px solid black !important;
+}
+
+.invoice-table .ant-table-row:last-child .ant-table-cell {
+  /* border-top: 1px solid black !important; */
+  border-bottom: 1px solid black !important;
+}
+
+.invoice-table .ant-table-content,
+.ant-table-body {
+  min-height: unset !important;
+}
+
+.templay-layout .ant-table-cell {
+  font-size: 10px; /* Adjust the font size as needed */
+  padding: 8px 8px !important;
+  color: black;
+}
+
+/* template table */
+.template-table .ant-table-cell {
+  font-size: 10px; /* Adjust the font size as needed */
+  padding: 8px 8px !important;
+  color: black;
+}
+
+.template-table .ant-table-content,
+.ant-table-body {
+  min-height: unset !important;
+}
+
+/* Toastify__toast-container */
+.Toastify__toast {
+  margin-left: 20px;
+}
+.Toastify__toast-container {
+  width: 100vw;
+}
+
+/* styles.css */
+.custom-popover-content {
+  max-width: 700px; /* Set your desired maximum width */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflow content */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+}
+
+.permission-page .ant-tabs-nav-wrap {
+  position: absolute !important;
+  right: 0;
+  top: -85px;
+  z-index: 30;
+}
+
+.custom-menu .ant-menu-item-selected {
+  border-bottom: 2px solid #ffffff !important;
+}
+
+.custom-menu .ant-menu-submenu-selected {
+  border-bottom: 2px solid #ffffff !important;
+}
