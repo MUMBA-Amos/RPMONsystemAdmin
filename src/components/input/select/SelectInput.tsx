@@ -82,6 +82,7 @@ export const ApSelectInput: React.FC<IProps> = (props) => {
                     cacheOptions={false}
                     placeholder={'Select Company'}
                     loadOptions={promiseOptions}
+                    onCreateOption={handleCreate}
                   />
  * 
  * 

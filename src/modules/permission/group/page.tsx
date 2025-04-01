@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { Popconfirm, Tooltip } from 'antd';
+import { useEffect, useState } from 'react';
+import { AiFillDelete } from 'react-icons/ai';
+import { FaEdit } from 'react-icons/fa';
 import {
-  ApContainer,
   ApButton,
+  ApContainer,
   ApModal,
-  ApPageTitle,
-  ApSearchInput,
-  ApSummaryCard,
   ApSummaryContainer
 } from '../../../components';
 import ApTable from '../../../components/table';
-import { Popconfirm, Tooltip } from 'antd';
-import { FaEdit } from 'react-icons/fa';
-import { useAccessGroupState } from './context';
 import { CreateOrUpdateGroup } from './components';
-import { AiFillDelete } from 'react-icons/ai';
+import { useAccessGroupState } from './context';
 import { IAccessGroup } from './model';
-import { FaUserGroup } from 'react-icons/fa6';
-import Link from 'next/link';
 
 const GroupsPage = () => {
   const { accessGroups, initLoading, findAccessGroups, deleteAccessGroup } = useAccessGroupState();
@@ -73,15 +68,15 @@ const GroupsPage = () => {
 
   return (
     <div className="flex flex-col w-full h-full">
-      <ApSummaryContainer className="flex items-end justify-end">
+
+      <ApContainer className="">
+
         <ApButton
-          className="h-11 w-full max-w-[150px] !px-2"
+          className="h-11 mb-2 float-end justify-end !px-2 "
           onClick={() => setModal({ show: true, type: 'Create Group' })}
           title="New Group"
         />
-      </ApSummaryContainer>
 
-      <ApContainer className="!h-full mt-5">
         <ApTable
           scroll={{ y: 500 }}
           columns={columns}
@@ -89,6 +84,7 @@ const GroupsPage = () => {
           pagination={false}
           loading={initLoading}
         />
+
       </ApContainer>
 
       <ApModal

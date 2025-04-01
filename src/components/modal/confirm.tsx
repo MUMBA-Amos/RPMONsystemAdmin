@@ -5,10 +5,11 @@ import { createConfirmation } from 'react-confirm';
 interface IProps {
   title?: string;
   message: string;
+  children?: React.ReactNode;
   callback: (val: boolean) => void;
 }
 
-const ApDialog: React.FC<IProps> = ({ title, message, callback }) => {
+const ApDialog: React.FC<IProps> = ({ title, message, children, callback }) => {
   const [show, setShow] = useState({ show: true, timestamp: 0 });
 
   useEffect(() => {
@@ -39,6 +40,7 @@ const ApDialog: React.FC<IProps> = ({ title, message, callback }) => {
             </div>
             <div className="modal-body text-left py-4 px-5 leading-loose">
               <p>{message || `Are you sure you want to perform this actions ?`}</p>
+              {children}
             </div>
             <div className="flex justify-end px-8 pb-5 mt-5 gap-3">
               <button

@@ -16,9 +16,9 @@ interface Node {
   children?: Node[];
 }
 
-const PermissionPage = ({}: Props) => {
+const PermissionPage = ({ }: Props) => {
   return (
-    <div>
+    <>
       <ApPageHeader title="Permissions" />
       <ApBodyContainer className="permission-page">
         <ApTabs
@@ -36,7 +36,7 @@ const PermissionPage = ({}: Props) => {
           ]}
         />
       </ApBodyContainer>
-    </div>
+    </>
   );
 };
 

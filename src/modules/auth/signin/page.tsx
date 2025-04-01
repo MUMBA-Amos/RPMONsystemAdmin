@@ -1,4 +1,3 @@
-
 import { PublicLayout } from '@/modules/layout';
 import { usePermissionState } from '@/modules/permission/context';
 import { Form, FormikProps } from 'formik';
@@ -20,18 +19,17 @@ export const SigninPage = () => {
   const [authError, setAuthError] = useState<string | undefined>('');
   const { findUserAccess } = usePermissionState();
 
-
   const handleSubmit = async (values: any, actions: any) => {
     setLoading(true);
     const result: any = await signIn('credentials', {
       redirect: false,
       email: values.email,
-      password: values.password,
+      password: values.password
     });
 
     if (!result?.error) {
       await findUserAccess();
-      setTimeout(() => { }, 2000);
+      setTimeout(() => {}, 2000);
       router.replace('/');
       setAuthError(result?.error);
     } else {
@@ -39,7 +37,6 @@ export const SigninPage = () => {
       setLoading(false);
     }
   };
-
 
   return (
     <PublicLayout>
@@ -56,7 +53,6 @@ export const SigninPage = () => {
             </div>
 
             <div className="flex flex-col gap-5 w-full">
-
               <ApTextInput
                 label="Email"
                 name="email"
@@ -80,11 +76,12 @@ export const SigninPage = () => {
               <span className="error-message block text-base text-red-500">{authError}</span>
 
               <div className="flex gap-3">
-
+                <Link href="/onboarding" className="text-xs block font-bold text-primary">
+                  Register
+                </Link>
                 <Link href="/forgot-password" className="text-xs block font-bold text-primary">
                   Forgot Password?
                 </Link>
-
               </div>
             </div>
 
@@ -99,7 +96,6 @@ export const SigninPage = () => {
           </Form>
         )}
       </ApForm>
-
     </PublicLayout>
   );
 };

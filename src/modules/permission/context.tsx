@@ -104,6 +104,10 @@ export const PermissionContextProvider: React.FC<IProps> = ({ children }) => {
   };
 
   const haveAccess = (module: string, component: any, action: string = 'view') => {
+    if (!module) {
+      return component;
+    }
+
     if (userAccess.length === 0) {
       return null;
     }
@@ -111,9 +115,6 @@ export const PermissionContextProvider: React.FC<IProps> = ({ children }) => {
     const moduleAccess = userAccess.find((x) => x.name?.toLowerCase() === module?.toLowerCase());
 
     if (!moduleAccess || !moduleAccess?.children) {
-      // return (
-      //   <div className="!text-red-500 text-xs italic">{`Error: Module ${module} not found`}</div>
-      // );
       return null;
     }
 
@@ -121,10 +122,9 @@ export const PermissionContextProvider: React.FC<IProps> = ({ children }) => {
       (x) => x.name?.toLowerCase() === action?.toLowerCase()
     );
 
+    // console.log('actn', actn);
+
     if (!actn || !actn?.hasPermission) {
-      // return (
-      //   <div className="!text-red-500 text-xs italic">{`Error: Permission action ${action} not found`}</div>
-      // );
       return null;
     }
 

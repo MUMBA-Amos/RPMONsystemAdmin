@@ -1,17 +1,14 @@
-import { Form, Formik, FormikProps } from "formik";
-import React, { useState } from "react";
-import * as Yup from "yup";
-import { ApButton } from "../../../components";
-import {
-  ApFileInput,
-  ApTextInput
-} from "../../../components/input";
-import { useMasterState } from "../context";
-import { IMaster } from "../model";
+import { Form, Formik, FormikProps } from 'formik';
+import React, { useState } from 'react';
+import * as Yup from 'yup';
+import { ApButton } from '../../../components';
+import { ApFileInput, ApTextInput } from '../../../components/input';
+import { useMasterState } from '../context';
+import { IMaster } from '../model';
 
 const FormSchema = Yup.object().shape({
-  name: Yup.string().required("name is required"),
-  key: Yup.string(),
+  name: Yup.string().required('name is required'),
+  key: Yup.string()
 });
 
 interface IProps {
@@ -23,16 +20,15 @@ interface IProps {
 }
 
 const CreateMaster: React.FC<IProps> = ({ master, onDismiss, addChild, type }) => {
-  const { updateMaster, createMaster, updateLoading } = useMasterState();
+  const { saveMaster, updateLoading } = useMasterState();
   const [file, setFile] = useState<any>();
-
 
   const handleSubmit = (values: any, actions: any) => {
     let promise;
 
     let payload = {
       ...values,
-      categories: values?.categories?.map((c: any) => c.value),
+      categories: values?.categories?.map((c: any) => c.value)
     };
 
     if (addChild) payload = { ...payload, parentId: master?.parentId };
@@ -41,15 +37,11 @@ const CreateMaster: React.FC<IProps> = ({ master, onDismiss, addChild, type }) =
       payload.file = {
         filename: file.filename,
         base64Str: file.base64Str,
-        filetype: file.filetype,
+        filetype: file.filetype
       };
     }
 
-    if (master?._id) {
-      promise = updateMaster(master?._id, payload);
-    } else {
-      promise = createMaster(payload);
-    }
+    promise = saveMaster(master?._id as string, payload);
 
     promise.then((res: any) => {
       if (res && onDismiss) onDismiss(res);
@@ -62,7 +54,7 @@ const CreateMaster: React.FC<IProps> = ({ master, onDismiss, addChild, type }) =
       setFile({
         filename: fl?.file?.name,
         base64Str: fl?.uri,
-        filetype: fl?.file?.type,
+        filetype: fl?.file?.type
       });
     }
   };
@@ -72,14 +64,14 @@ const CreateMaster: React.FC<IProps> = ({ master, onDismiss, addChild, type }) =
       <div className="bg-white">
         <Formik
           initialValues={{
-            name: master?.name || "",
+            name: master?.name || '',
             categories: !!master?.categoryList?.length
               ? master?.categoryList?.map((c) => ({
-                value: c._id,
-                label: c.name,
-              }))
+                  value: c._id,
+                  label: c.name
+                }))
               : [],
-            key: (addChild ? "" : master?.key) || "",
+            key: (addChild ? '' : master?.key) || ''
           }}
           validationSchema={FormSchema}
           onSubmit={handleSubmit}
@@ -104,23 +96,22 @@ const CreateMaster: React.FC<IProps> = ({ master, onDismiss, addChild, type }) =
                 </>
               )}
 
-
-              {master?.parent?.key === "gender" && (
+              {master?.parent?.key === 'gender' && (
                 <ApFileInput
                   ignoreResize
                   maxCount={1}
                   defaultFileList={
                     master?.image
                       ? [
-                        {
-                          uid: master?.image?._id,
-                          url: master?.image?.uri,
-                          name: master?.image?.uri,
-                        },
-                      ]
+                          {
+                            uid: master?.image?._id,
+                            url: master?.image?.uri,
+                            name: master?.image?.uri
+                          }
+                        ]
                       : []
                   }
-                  accept={"image/*"}
+                  accept={'image/*'}
                   onSelected={(res: any) => {
                     if (res) {
                       handleImage(res);
@@ -133,7 +124,7 @@ const CreateMaster: React.FC<IProps> = ({ master, onDismiss, addChild, type }) =
                 <ApButton
                   type="submit"
                   className="bg-cyan-500 text-white  px-4"
-                  title={`${master?._id ? "Update" : "Create"}`}
+                  title={`${master?._id ? 'Update' : 'Create'}`}
                   loading={updateLoading}
                 />
               </div>

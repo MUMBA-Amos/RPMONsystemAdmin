@@ -49,9 +49,9 @@ export const ApTextInput = forwardRef((props: IProps, ref) => {
   return (
     <div className={containerClassName}>
       {label && (
-        <ApText className="cus-sm2:text-xs" size="md">
+        <p className="cus-sm2:text-xs text-sm">
           {label}
-        </ApText>
+        </p>
       )}
 
       {type == 'textarea' ? (

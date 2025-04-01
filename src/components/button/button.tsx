@@ -64,7 +64,7 @@ export const ApButton: React.FC<IProps> = ({
       <button
         type={type}
         className={`${loading && 'cursor-not-allowed'
-          } flex items-center justify-center gap-3 text-sm rounded-sm w-full md:w-[200px] cus-sm2:text-xs py-3 px-5 cus-md3:px-2 font-light ${btnClassName()} ${color} ${disabled && 'cursor-not-allowed'
+          } flex items-center justify-center gap-3 text-sm rounded-sm h-[45px] cus-sm2:text-xs py-2 px-2 cus-md3:px-2 font-light ${btnClassName()} ${color} ${disabled && 'cursor-not-allowed'
           } ${disabled && btnType !== 'outline' && '!bg-gray-400'} ${className}`}
         onClick={onClick}
         disabled={disabled || loading}

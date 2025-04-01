@@ -12,6 +12,8 @@ import { ApButton } from '../button/button';
 import { ApTooltip } from '../container';
 import { ApAccessGuard } from '../guard';
 import { ApConfirmPopover } from '../modal/popover';
+import { TbEdit } from 'react-icons/tb';
+import { IoIosCloseCircle } from 'react-icons/io';
 
 export interface IApTalbeProps extends TableProps<any> {
   theme?: ThemeConfig | undefined;
@@ -20,7 +22,6 @@ export interface IApTalbeProps extends TableProps<any> {
 }
 
 const ApTable: React.FC<IApTalbeProps> = (props: IApTalbeProps) => {
- 
   return (
     <Table
       showHeader
@@ -39,13 +40,14 @@ export default ApTable;
 interface IProps2 {
   href: string;
   onClick?: () => void;
+  title?: string
 }
-export const ApViewDetailBtn: React.FC<IProps2> = ({ href, onClick }) => {
+export const ApViewDetailBtn: React.FC<IProps2> = ({ href, onClick, title }) => {
   return (
     <ApTooltip title="View Detail" className="">
       <Link href={href} onClick={onClick} target="_blank">
         <div className="flex items-center">
-          <p className="text-primary font">View Detail</p>
+          <p className="text-primary font">{title || 'View Detail'}</p>
           <FaArrowRight size={15} className="ml-2 text-2xl cursor-pointer text-primary" />
         </div>
       </Link>
@@ -54,16 +56,16 @@ export const ApViewDetailBtn: React.FC<IProps2> = ({ href, onClick }) => {
 };
 
 export const ApDeleteRowIcon: React.FC<{
+  iconClassName?: string
+
   popoverTitle?: string;
   tooltipTitle?: string;
   onConfirm: () => void;
   permission?: { module: string; action: string };
-}> = ({ popoverTitle, tooltipTitle, onConfirm, permission }) => {
+}> = ({ popoverTitle, tooltipTitle, onConfirm, permission, iconClassName }) => {
   const renderButton = () => (
     <ApConfirmPopover title={popoverTitle || 'Delete'} onConfirm={onConfirm}>
-      <ApTooltip title={tooltipTitle || 'Delete'}>
-        <AiFillDelete className="text-xl text-red-500 cursor-pointer" />
-      </ApTooltip>
+      <IoIosCloseCircle className={`text-xl text-red-500 cursor-pointer ${iconClassName}`} />
     </ApConfirmPopover>
   );
 
@@ -78,15 +80,16 @@ export const ApDeleteRowIcon: React.FC<{
 };
 
 export const ApEditRowIcon: React.FC<{
+  iconClassName?: string
   popoverTitle?: string;
   tooltipTitle?: string;
   onClick: () => void;
   permission?: { module: string; action: string };
-}> = ({ popoverTitle, tooltipTitle, onClick, permission }) => {
+}> = ({ popoverTitle, tooltipTitle, onClick, permission, iconClassName }) => {
   const renderButton = () => (
     <div role="button" onClick={onClick}>
       {/* <ApTooltip title={tooltipTitle || 'Edit'}> */}
-      <FaEdit className="text-xl text-blue-400 cursor-pointer" />
+      <TbEdit className={`text-xl text-primary cursor-pointer ${iconClassName}`} />
       {/* </ApTooltip> */}
     </div>
   );

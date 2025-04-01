@@ -14,8 +14,8 @@ export const ProfileView: React.FC<IProps> = ({ profile }) => {
         <FaUser size={30} color="white" />
       </div>
       <div>
-        <ApText font="bold">{profile?.name}</ApText>
-        <ApText color="muted">{profile?.email}</ApText>
+        <ApText font="bold">{profile?.user?.firstName}</ApText>
+        <ApText color="muted">{profile?.user?.email}</ApText>
       </div>
     </div>
   );

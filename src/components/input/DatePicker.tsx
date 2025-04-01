@@ -20,6 +20,7 @@ const ApDateInput: React.FC<ApDateInputProps> = ({
   label,
   value,
   maxDate,
+  showTime,
   ignoreFormik,
   containerClassName,
   onChange,
@@ -48,10 +49,10 @@ const ApDateInput: React.FC<ApDateInputProps> = ({
     return (
       <div className="w-full">
         <DatePicker
-          showTime={{
+          showTime={showTime ? {
             format: AP_TIME_FORMAT,
             use12Hours: true
-          }}
+          } : false}
           {...field}
           {...(datePickerProps as any)}
           value={initialValue}

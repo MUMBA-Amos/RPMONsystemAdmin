@@ -1,4 +1,4 @@
-import { UserFragment } from '@/modules/profile/gql/fragment';
+import { ProfileFragment } from '@/modules/profile/gql/fragment';
 import { gql } from 'graphql-tag';
 
 export const DepartmentFragment = gql`
@@ -11,5 +11,5 @@ export const DepartmentFragment = gql`
       ...User
     }
   }
-  ${UserFragment}
+  ${ProfileFragment}
 `;

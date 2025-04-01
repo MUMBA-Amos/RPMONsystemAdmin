@@ -127,7 +127,7 @@ const PermisssionTabs: React.FC<IProps> = () => {
                 onClick={() => handleAddAll()}
               />
               <ApButton
-                className="h-[30px]"
+                className="h-[30px] w-auto"
                 btnType="outline"
                 title="Uncheck All"
                 onClick={() => handleRemoveAll()}

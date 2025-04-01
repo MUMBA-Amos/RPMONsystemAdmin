@@ -1,4 +1,5 @@
 import { ApGuardBuilder } from '@/guard';
+import { Dashboard } from '@/modules/dashboard';
 import MainLayout from '@/modules/layout';
 import { getSession } from 'next-auth/react';
 
@@ -7,7 +8,9 @@ interface IProps {
 }
 
 const Home: React.FC<IProps> = ({ dashboard }) => {
-  return <MainLayout >Dashboard here..</MainLayout>
+  return <MainLayout >
+    <Dashboard />
+  </MainLayout>
 };
 
 export const getServerSideProps = async ({ req }: any) => {

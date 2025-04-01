@@ -1,5 +1,4 @@
 import { ApSsrGlobal } from '@/SsrGlobal';
-import { getHostUrl } from '@/utils';
 import { ClientError, gql, GraphQLClient } from 'graphql-request';
 import NextAuth from 'next-auth';
 import CredentialProvider from 'next-auth/providers/credentials';
@@ -11,7 +10,7 @@ const getApolloClient = () => {
 
   console.log('getApolloClient:', url);
 
-  return new GraphQLClient(`${url}/graphql`, {
+  return new GraphQLClient(`${url}/graphql/`, {
     credentials: 'include'
   });
 };
@@ -21,7 +20,6 @@ const SIGN_IN = gql`
     signIn(email: $email, password: $password, client: $client, company: $company) {
       userId
       name
-      roles
       kind
       storeId
       companyId
@@ -40,7 +38,6 @@ const REFRESH_TOKEN = gql`
       userId
       name
       kind
-      roles
       storeId
       companyId
       accessToken
@@ -96,9 +93,9 @@ async function jwtCallback(params: any) {
     token = mapTokens(user);
   }
 
-  if (user?.roles) {
-    token.roles = user.roles.toString();
-  }
+  // if (user?.roles) {
+  //   token.roles = user.roles.toString();
+  // }
   // Return previous token if the access token has not expired yet
   if (Date.now() < token.accessTokenExpiresIn) {
     return token;

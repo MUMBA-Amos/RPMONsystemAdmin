@@ -1,7 +1,7 @@
-import { useSession } from 'next-auth/react';
-import React, { createContext } from 'react';
-import { ApRoleTypes } from '../constants';
 import { usePermissionState } from '@/modules/permission/context';
+import { useSession } from 'next-auth/react';
+import React from 'react';
+import { ApRoleTypes } from '../constants';
 
 interface IProps {
   roles?: Array<ApRoleTypes>;

@@ -37,7 +37,7 @@ export const ApDateRangePicker: React.FC<IProps> = ({
       onChange({
         fromDate: dates ? moment(dates[0].valueOf()).startOf('day').valueOf() : null,
         toDate: dates ? moment(dates[1].valueOf()).endOf('day').valueOf() : null
-      })
+      });
     }
   };
 
@@ -48,14 +48,14 @@ export const ApDateRangePicker: React.FC<IProps> = ({
           {fromLabel && (
             <div className="w-[50%]">
               <ApText className="cus-sm2:text-xs" size="sm">
-                From Date
+                {fromLabel || 'From Date'}
               </ApText>
             </div>
           )}
           {toLabel && (
             <div className="w-[50%]">
               <ApText className="cus-sm2:text-xs" size="sm">
-                To Date
+                {toLabel || ' To Date'}
               </ApText>
             </div>
           )}

@@ -1,5 +1,5 @@
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import {
   ApContainer,
   ApButton,
@@ -7,131 +7,123 @@ import {
   ApPageTitle,
   ApSearchInput,
   ApSummaryCard,
-  ApSummaryContainer,
-} from "../../components";
-import { useNotificationState } from "./context";
-import { INotification, INotificationFilter } from "./model";
-import ApTable from "../../components/table";
-import { IoMdNotifications } from "react-icons/io";
-import Link from "next/link";
-import { FaArrowRight } from "react-icons/fa";
+  ApSummaryContainer
+} from '../../components';
+import { useNotificationState } from './context';
+import { INotification, INotificationFilter } from './model';
+import ApTable, { ApViewDetailBtn } from '../../components/table';
+import { IoMdNotifications } from 'react-icons/io';
+import Link from 'next/link';
+import { FaArrowRight } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 
 export const NotificationPage = () => {
-  const {
-    fetchNotification,
-    updateNotificationStatus,
-    loading,
-    notifications,
-    totalRecords,
-  } = useNotificationState();
+  const { fetchNotification, updateNotificationStatus, loading, notifications, totalRecords } =
+    useNotificationState();
 
   const [filter, setFilter] = useState<INotificationFilter>({
     page: 1,
-    pageSize: 50,
+    pageSize: 50
   });
 
   const { data: session } = useSession();
   const user = session as any;
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState('');
   useEffect(() => {
     fetchNotification({ ...filter, page: filter.page });
   }, [filter]);
 
-  const handleMarkAsRead = (notification: INotification) => {
-    if (notification?.status === "READ") {
-      updateNotificationStatus(notification?._id, "UNREAD");
-      setColor("bg-primary");
-    } else
-      updateNotificationStatus(notification?._id, "READ"),
-        setColor("bg-red-400");
+  // const handleMarkAsRead = (notification: INotification) => {
+  //   if (notification?.status === 'READ') {
+  //     updateNotificationStatus(notification?._id, 'UNREAD');
+  //     setColor('bg-primary');
+  //   } else updateNotificationStatus(notification?._id, 'READ'), setColor('bg-red-400');
+  // };
+
+  const handleViewDetail = async (notification: INotification) => {
+    try {
+      await updateNotificationStatus(notification?._id, 'READ');
+    } catch (error) {
+      console.error('Error updating notification status:', error);
+    }
   };
+
   const handleClearSearch = () => {
     const flt = {
       ...filter,
       fromDate: undefined,
       toDate: undefined,
-      keyword: "",
+      keyword: ''
     };
     setFilter(flt);
     fetchNotification(flt);
   };
   // handleDateChange
-  const handleDateChange = () => {};
+  const handleDateChange = () => { };
 
   const columns: any = [
     {
-      title: "Title",
-      dataIndex: "title",
+      title: 'Ref',
+
+      render: (_: any, records: INotification) => {
+        return (
+          <div className="">
+            <p>{records?.ref}</p>
+          </div>
+        );
+      }
+    },
+    {
+      title: 'Title',
+
       render: (_: any, records: INotification) => {
         return (
           <div className="">
             <p>{records?.title}</p>
           </div>
         );
-      },
+      }
     },
+
     {
-      title: "Message",
-      dataIndex: "message",
+      title: 'Message',
+
       render: (_: any, records: INotification) => {
         return (
           <div className="">
             <p>{records?.message}</p>
           </div>
         );
-      },
+      }
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: 'Status',
+
       render: (_: any, records: INotification) => {
         return (
           <div className="">
             <p>{records?.status}</p>
           </div>
         );
-      },
+      }
     },
     {
-      title: "Type",
-      dataIndex: "type",
+      title: 'Actions',
+      dataIndex: 'actions',
+      align: 'right',
+      fixed: 'right',
       render: (_: any, records: INotification) => {
         return (
-          <div className="">
-            <p>{records?.type}</p>
+          <div className="flex space-x-2 justify-end items-center">
+            <ApViewDetailBtn href={`/applications/${records.refId}`} onClick={() => handleViewDetail(records)} />
           </div>
         );
-      },
-    },
-    {
-      title: "Actions",
-      dataIndex: "actions",
-      align: "right",
-      fixed: "right",
-      render: (_: any, records: INotification) => {
-        return (
-          <div className="flex items-end justify-end gap-4">
-            <Link
-              href={
-                records.type == "ORDER"
-                  ? `/order/${records.ref}`
-                  : `/scheme/user/${records.userId}`
-              }
-              className="text-primary font-bold"
-            >
-            <div className="flex items-center">
-             <p className="text-primary font">View Detail</p>
-              <FaArrowRight size={15} className="ml-2 text-2xl cursor-pointer text-primary"/>
-             </div>
-            </Link>
-          </div>
-        );
-      },
-    },
+      }
+    }
   ];
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-6 px-4 pt-4">
       <ApPageTitle title="Notifications" />
 
       <ApSummaryContainer className="cus-sm:grid cus-sm:grid-cols-2 cus-xs:!gap-3">
@@ -140,6 +132,7 @@ export const NotificationPage = () => {
           title="Total Notifications"
           // subTitle="+2 this week"
           icon={<IoMdNotifications color="#b6b30d" size={20} />}
+          className="!w-1/4"
         />
       </ApSummaryContainer>
 
@@ -160,7 +153,7 @@ export const NotificationPage = () => {
               containerClassName="cus-sm2:w-full cus-xs:col-span-2"
               date={{
                 fromDate: filter ? new Date() : undefined,
-                toDate: filter ? new Date() : undefined,
+                toDate: filter ? new Date() : undefined
               }}
               onChange={handleDateChange}
             />
@@ -188,9 +181,9 @@ export const NotificationPage = () => {
               setFilter({
                 ...filter,
                 page: pageSize !== filter.pageSize ? 1 : page,
-                pageSize,
+                pageSize
               });
-            },
+            }
           }}
           loading={loading}
         />

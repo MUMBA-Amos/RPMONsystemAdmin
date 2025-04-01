@@ -50,7 +50,7 @@ export const ApPhoneInput: React.FC<IProps> = ({
           '!border !bg-transparent px-3 text-[13px] outline-none w-full h-[45px] rounded-md focus:border-gray-100'
         }`}
         value={field.value}
-        country={'ng'}
+        country={'my'}
         onChange={(text) => {
           setValue(text);
         }}

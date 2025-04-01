@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 
 interface Item {
   label: string;
@@ -7,6 +7,7 @@ interface Item {
 }
 
 interface IProps {
+  activeKey?: string;
   items: Array<Item>;
   btnClassName?: string;
   containerClassName?: string;
@@ -16,8 +17,16 @@ interface IProps {
 }
 
 export const ApSegment = forwardRef((props: IProps, ref) => {
-  const { items, onSelect, containerClassName, btnContainerClassName, btnClassName } = props;
+  const { items, onSelect, containerClassName, btnContainerClassName, btnClassName, activeKey } =
+    props;
   const [active, setActive] = useState<Item>(items[0]);
+
+  useEffect(() => {
+    if (activeKey) {
+      const newActive = items.find((item) => item.key === activeKey);
+      if (newActive) setActive(newActive);
+    }
+  }, [activeKey, items]); // Runs when `activeKey` changes
 
   const handleOnSelect = (index: number) => {
     setActive(items[index]);
@@ -44,8 +53,8 @@ export const ApSegment = forwardRef((props: IProps, ref) => {
                 type="button"
                 onClick={() => handleOnSelect(i)}
                 className={` ${btnClassName}
-                                w-[50%] flex items-center justify-center p-2 cus-xs:p-2 text-sm rounded-md
-                                ${item.key === active.key && 'bg-primary text-white'}
+                                w-[50%] flex items-center justify-center p-2 cus-xs:p-2 text-sm
+                                ${item.key === active.key && 'border-b border-primary '}
                             `}
               >
                 {item?.label}

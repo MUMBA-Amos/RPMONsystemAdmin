@@ -15,7 +15,7 @@ function MyAppX({ Component, pageProps: { ...pageProps } }: AppProps) {
   const { fetchMaster } = useMasterState();
 
   useEffect(() => {
-    fetchMaster();
+    fetchMaster({page: 1, pageSize: 10000});
   }, []);
 
   return (
@@ -59,7 +59,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps }, router }: AppP
       theme={{
         token: {
           fontFamily: '',
-          colorPrimary: '#DAA520'
+          colorPrimary: '#022161'
         }
       }}
     >

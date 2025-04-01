@@ -21,10 +21,10 @@ class Guard {
 
 export class ApGuardBuilder {
   private guard: Guard;
-  private session: ISession;
+  private session: ISession | null;
   private req: any;
   private globalSsr: ApSsrGlobal = ApSsrGlobal.getInstance();
-  constructor(session: ISession, req?: any) {
+  constructor(session: ISession | null, req?: any) {
     this.guard = new Guard();
     this.session = session;
     this.req = req;
@@ -33,13 +33,13 @@ export class ApGuardBuilder {
   }
 
   private mappSsrGlobal() {
+
+    console.log('environment.Uri.Server', environment.Uri.Server);
+
     this.globalSsr.req = this.req;
     this.globalSsr.session = this.session;
     this.globalSsr.accessToken = this.session?.user?.accessToken as string;
-    this.globalSsr.serverAddress = helper.getCookie('server', this.req ? this.req.headers.cookie : '') || environment.Uri.Server;
-    // this.globalSsr.serverAddress = environment.RequireServerSetup
-    //   ? helper.getCookie('server', this.req ? this.req.headers.cookie : '') || ''
-    //   : environment.Uri.Server;
+    this.globalSsr.serverAddress = environment.Uri.Server;
   }
 
   setSsrGlobal(serverAddress: string, accessToken?: string) {

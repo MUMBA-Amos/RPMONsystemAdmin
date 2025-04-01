@@ -14,19 +14,6 @@ const CREATE_MASTER = gql`
   ${MasterFragment}
 `;
 
-export const useCreateMaster = (callback: any) => {
-  return useMutation(CREATE_MASTER, {
-    onCompleted: (res) => {
-      if (res.createMaster) {
-        callback(res.createMaster);
-      }
-    },
-    onError: (err) => {
-      toastSvc.graphQlError(err);
-    }
-  });
-};
-
 const UPDATE_MASTER = gql`
   mutation updateMaster($id: String!, $master: UpdateMasterInput!) {
     updateMaster(id: $id, master: $master) {
@@ -35,19 +22,6 @@ const UPDATE_MASTER = gql`
   }
   ${MasterFragment}
 `;
-
-export const useUpdateMaster = (callback: (data: any) => void) => {
-  return useMutation(UPDATE_MASTER, {
-    onCompleted: (res) => {
-      if (res.updateMaster) {
-        callback(res.updateMaster);
-      }
-    },
-    onError: (err) => {
-      toastSvc.graphQlError(err);
-    }
-  });
-};
 
 const MASTER_PAGE = gql`
   query masterPage($page: MasterPageInput!) {
@@ -70,37 +44,28 @@ export const fetchMasterPageAsync = async (token: string) => {
     });
 };
 
-export const useLazyMasterPage = (callback: (data: any) => void) => {
-  return useLazyQuery(MASTER_PAGE, {
-    fetchPolicy: 'no-cache',
-    onCompleted: (res) => {
-      if (res?.masterPage) {
-        callback(res?.masterPage);
-      }
-    },
-    onError: (err) => {
-      toastSvc.graphQlError(err);
-    }
-  });
-};
-
 const DELETE_MASTER = gql`
   mutation deleteMaster($id: String!) {
     deleteMaster(id: $id)
   }
 `;
 
-export const useDeleteMaster = (callback: (data: any) => void) => {
-  return useMutation(DELETE_MASTER, {
-    onCompleted: (res) => {
-      if (res.deleteMaster) {
-        callback(res.deleteMaster);
-      }
-    },
-    onError: (err) => {
-      toastSvc.graphQlError(err);
-    }
-  });
+export const useMasterQuery = () => {
+  const onError = (error: any) => {
+    toastSvc.graphQlError(error);
+  };
+
+  const page = useLazyQuery(MASTER_PAGE, { fetchPolicy: 'no-cache', onError });
+  const create = useMutation(CREATE_MASTER, { onError });
+  const update = useMutation(UPDATE_MASTER, { onError });
+  const remove = useMutation(DELETE_MASTER, { onError });
+
+  return {
+    page: page[0],
+    create: create[0],
+    update: update[0],
+    remove: remove[0]
+  };
 };
 
 // const FIND_MASTER = gql`

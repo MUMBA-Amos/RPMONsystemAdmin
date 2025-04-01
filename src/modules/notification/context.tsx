@@ -1,44 +1,27 @@
-import React, { createContext, useState } from "react";
-import { toastSvc } from "../../services";
+import React, { createContext, useState } from 'react';
+import { toastSvc } from '../../services';
 
-import { OperationVariables, QueryResult } from "@apollo/client";
-import { useRouter } from "next/router";
-import { useNotificationQuery } from "./gql/query";
-import {
-  INotification,
-  INotificationFilter
-} from "./model";
+import { OperationVariables, QueryResult } from '@apollo/client';
+import { useRouter } from 'next/router';
+import { useNotificationQuery } from './gql/query';
+import { INotification, INotificationFilter } from './model';
 
 interface INotificationState {
   loading: boolean;
   totalRecords: number;
-  fetchNotification: (
-    page: INotificationFilter
-  ) => Promise<QueryResult<any, OperationVariables>>;
+  notificationCounts: number;
+  fetchNotification: (page: INotificationFilter) => Promise<QueryResult<any, OperationVariables>>;
   notifications: INotification[];
-  updateNotificationStatus: (
-    notificationId: string,
-    status: string
-  ) => Promise<void>;
+  updateNotificationStatus: (notificationId: string, status: string) => Promise<void>;
+  fetchNotificationCount: () => Promise<void>;
 }
 
-const NotificationContext = createContext<INotificationState>({
-  loading: false,
-  totalRecords: 0,
-  fetchNotification(page) {
-    return null as any;
-  },
-  notifications: [],
-
-  updateNotificationStatus(notificationId, status) {
-    return Promise.resolve();
-  },
-});
+const NotificationContext = createContext<INotificationState | undefined>(undefined);
 
 export const useNotificationState = () => {
   const context = React.useContext(NotificationContext);
   if (context === undefined) {
-    throw new Error("app dispatch must be used within the app global provider");
+    throw new Error('app dispatch must be used within the app global provider');
   }
   return context;
 };
@@ -52,6 +35,7 @@ export const NotificationContextProvider: React.FC<IProps> = ({ children }) => {
   const router = useRouter();
   const [notifications, setNotifications] = useState<INotification[]>([]);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [notificationCounts, setNotificationCounts] = useState(0);
 
   const limit = 5;
 
@@ -59,11 +43,11 @@ export const NotificationContextProvider: React.FC<IProps> = ({ children }) => {
     let payload: any = {
       skip: page.page === 1 ? 0 : (page.page - 1) * page.pageSize,
       keyword: page?.keyword,
-      take: page.pageSize,
+      take: page.pageSize
     };
 
     return notificationQ.fetchNotification[0]({
-      variables: { page: { ...payload } },
+      variables: { page: { ...payload } }
     }).then((res) => {
       const data = res?.data?.notificationPage;
       setNotifications(data?.data);
@@ -72,17 +56,25 @@ export const NotificationContextProvider: React.FC<IProps> = ({ children }) => {
     });
   };
 
+  const fetchNotificationCount = async () => {
+    return notificationQ.notificationCount[0]({}).then((res) => {
+      const data = res?.data?.notificationCount;
+      if (data) {
+        setNotificationCounts(data);
+      }
+      return data;
+    });
+  };
+
   const updateNotificationStatus = (notificationId: string, status: any) => {
     return notificationQ.updateNotificationStatus[0]({
-      variables: { notificationId, status },
+      variables: { notificationId, status }
     }).then((res) => {
       const data = res?.data?.updateNotificationStatus;
       if (data) {
-        toastSvc.success("Update successful");
+        toastSvc.success('Update successful');
         setNotifications(
-          notifications.map((n) =>
-            n._id === notificationId ? { ...n, status } : n
-          )
+          notifications.map((n) => (n._id === notificationId ? { ...n, status } : n))
         );
       }
       return data;
@@ -97,6 +89,8 @@ export const NotificationContextProvider: React.FC<IProps> = ({ children }) => {
         fetchNotification,
         notifications,
         totalRecords,
+        fetchNotificationCount,
+        notificationCounts
       }}
     >
       {children}

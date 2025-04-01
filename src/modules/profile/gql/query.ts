@@ -1,7 +1,7 @@
 import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { toastSvc } from '../../../services';
-import { UserFragment } from './fragment';
 import { getGqlClient } from '../../../ApolloClient';
+import { ProfileFragment } from './fragment';
 
 const PROFILE_PAGE = gql`
   query currentUser {
@@ -9,69 +9,65 @@ const PROFILE_PAGE = gql`
       ...User
     }
   }
-  ${UserFragment}
+  ${ProfileFragment}
 `;
 
-export const useProfilePage = (onCompleted: any) => {
-  return useLazyQuery(PROFILE_PAGE, {
-    fetchPolicy: 'no-cache',
-    onCompleted: (res) => {
-      if (res.currentUser) {
-        onCompleted(res.currentUser);
-      }
-    },
-    onError: (err) => {
-      toastSvc.graphQlError(err);
+const CREATE_PROFILE = gql`
+  mutation createProfile($profile: CreateProfileInput!) {
+    createProfile(profile: $profile) {
+      ...Profile
     }
-  });
-};
+  }
+  ${ProfileFragment}
+`;
 
 const UPDATE_PROFILE = gql`
-  mutation updateUser($account: UpdateUserInput!) {
-    updateUser(account: $account) {
-      ...User
+  mutation updateProfile($_id: String!, $profile: UpdateProfileInput!) {
+    updateProfile(_id: $_id, profile: $profile) {
+      _id
+      ...Profile
     }
   }
-  ${UserFragment}
+  ${ProfileFragment}
 `;
 
-export const useUpdateProfile = (callback: any) => {
-  return useMutation(UPDATE_PROFILE, {
-    onCompleted: (res) => {
-      if (res?.updateUser) {
-        callback(res.updateUser);
-      }
-    },
-    onError: (err) => {
-      toastSvc.graphQlError(err);
+const FIND_PROFILE = gql`
+  query findOneProfile($profile: ProfileQueryInput!) {
+    findOneProfile(profile: $profile) {
+      ...Profile
     }
+  }
+  ${ProfileFragment}
+`;
+
+export const useProfileQuery = () => {
+  const onError = (error: any) => {
+    toastSvc.graphQlError(error);
+  };
+
+  const profile = useLazyQuery(PROFILE_PAGE, {
+    fetchPolicy: 'no-cache',
+    onError
   });
+
+  const create = useMutation(CREATE_PROFILE, { onError });
+  const update = useMutation(UPDATE_PROFILE, { onError });
+
+  return {
+    page: profile[0],
+    create: create[0],
+    update: update[0]
+  };
 };
 
-export const findCurrentUserAsync = async (token: string) => {
+export const findOneProfileAsync = async (_id: string, token: string) => {
   return await getGqlClient()
     .setHeader('Authorization', `Bearer ${token}`)
-    .request(PROFILE_PAGE, {})
+    .request(FIND_PROFILE, { profile: { userId: _id } })
     .then((res: any) => {
-      return res.currentUser;
+      return res?.findOneProfile;
+    }).catch((error: any) => {
+      console.error('findOneProfileAsync', error);
+      throw error;
     });
-};
-
-const CHANGE_PASSWORD = gql`
-  mutation changePassword($password: ChangePasswordInput!) {
-    changePassword(password: $password)
-  }
-`;
-
-export const useChangePassword = (callback: any) => {
-  return useMutation(CHANGE_PASSWORD, {
-    onCompleted: (res) => {
-      if (res.changePassword) {
-        callback(res.changePassword);
-      }
-    },
-    onError: (err) => {
-      toastSvc.graphQlError(err);
-    }
-  });
 };

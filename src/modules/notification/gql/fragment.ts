@@ -1,17 +1,16 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const NotificationFragment = gql`
   fragment Notification on Notification {
     _id
-    userId,
-    refId,
+    userId
+    refId
     title
     ref
     message
-    type
     status
-    group,
-    createdAt,
-    updatedAt,
+    group
+    createdAt
+    updatedAt
   }
 `;

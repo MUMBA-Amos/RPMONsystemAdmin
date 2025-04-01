@@ -121,7 +121,7 @@ export const ApFileInput: React.FC<IProps> = (props: IProps) => {
 
   return (
     <div className={`rounded-sm ${containerClassName}`}>
-      {label && <p className={`mb-2 cus-sm2:text-xs ${labelClassName}`}>{label}</p>}
+      {label && <p className={`mb-2 text-sm cus-sm2:text-xs ${labelClassName}`}>{label}</p>}
       <Upload {...uploadProps}>
         {fileList.length >= maxCount || noUpload ? null : uploadButton || RenderUploadButton}
       </Upload>

@@ -10,6 +10,7 @@ export interface IProps extends StateManagerProps {
   valueKey?: string;
   ignoreFormik?: boolean;
   inputClassName?: string;
+  helperText?: string;
   containerClassName?: string | undefined;
   onChange?: (value: any) => void;
 }

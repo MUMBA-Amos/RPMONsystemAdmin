@@ -20,7 +20,8 @@ export const ApMasterSelectInput: React.FC<IMasterProps> = (props) => {
     valueKey = 'value',
     ignoreFormik,
     inputClassName,
-    onChange
+    onChange,
+    helperText
   } = props;
 
   const { getMasterByKey } = useMasterState();
@@ -59,6 +60,7 @@ export const ApMasterSelectInput: React.FC<IMasterProps> = (props) => {
           if (onChange) onChange(val);
         }}
       />
+      <p className="text-sm text-gray-400 pt-1">{helperText}</p>
     </SelectWrapper>
   );
 };

@@ -12,7 +12,7 @@ export const SelectWrapper: React.FC<IWrapperProps> = (props: IWrapperProps) => 
 
   return (
     <div className={`${containerClassName}`}>
-      {label && <ApText size="sm">{label}</ApText>}
+      {label && <p className="cus-sm2:text-xs text-sm">{label}</p>}
       {children}
       {!ignoreFormik
         ? formikField?.[1].error && (

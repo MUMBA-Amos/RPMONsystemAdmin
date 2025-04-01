@@ -28,17 +28,17 @@ interface IProps {
 }
 
 export const ApUserSelection: React.FC<IProps> = ({ name, ignoreFormik, onChange, className }) => {
-  const { fetchUserPage, users, totalRecords } = useUserState();
+  const { fetchUsers, users, totalRecords } = useUserState();
   const [filter, setFilter] = useState<IUserFilter>({
     page: 1,
     pageSize: DEFAULT_PAGE_SIZE
   });
   useEffect(() => {
-    fetchUserPage({ page: 1, pageSize: DEFAULT_PAGE_SIZE });
+    fetchUsers({ page: 1, pageSize: DEFAULT_PAGE_SIZE });
   }, []);
 
   useEffect(() => {
-    fetchUserPage({ ...filter, pageSize: DEFAULT_PAGE_SIZE });
+    fetchUsers({ ...filter, pageSize: DEFAULT_PAGE_SIZE });
   }, [filter]);
 
   const handleSearch = (val: string | undefined) => {

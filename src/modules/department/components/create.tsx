@@ -20,12 +20,12 @@ const CreateDepartment: React.FC<IProps> = ({ onDismiss }) => {
     modal: { data: department, type },
     loading,
     createDepartment,
-    updateDepartment,
+    updateDepartment
   } = useDepartmentState();
-  const { fetchUserPage, users } = useUserState();
+  const { fetchUsers, users } = useUserState();
 
   useEffect(() => {
-    fetchUserPage({ page: 1, pageSize: 50 });
+    fetchUsers({ page: 1, pageSize: 50 });
   }, []);
 
   const handleSubmit = async (val: any) => {
@@ -48,11 +48,10 @@ const CreateDepartment: React.FC<IProps> = ({ onDismiss }) => {
 
   const promiseOptions = (inputValue: string) =>
     new Promise<IUser[]>((resolve) => {
-      fetchUserPage({ page: 1, pageSize: 50, keyword: inputValue }).then((res) => {
+      fetchUsers({ page: 1, pageSize: 50, keyword: inputValue }).then((res) => {
         resolve(res);
       });
     });
-
 
   return (
     <div>
@@ -78,13 +77,13 @@ const CreateDepartment: React.FC<IProps> = ({ onDismiss }) => {
                 /> */}
                 <ApSelectInputAsync
                   // createable
-                  name={"user"}
-                  label={"HOD"}
+                  name={'user'}
+                  label={'HOD'}
                   valueKey="_id"
                   labelKey="name"
                   className="w-full"
                   getOptionLabel={(option: any) => option.email}
-                  placeholder={"Select HOD"}
+                  placeholder={'Select HOD'}
                   loadOptions={promiseOptions}
                   // onCreateOption={(val) => {
                   //   setModal({ show: true, data: { accountName: val }, type: 'add' });

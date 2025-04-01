@@ -49,7 +49,7 @@ export const ApModal: React.FC<IProps> = ({
         ) : (
           <Modal
             maskClosable={maskClosable || false}
-            title={<p className="text-2xl font-bold capitalize">{title}</p>}
+            title={<p className="text-2xl font-bold text-center capitalize">{title}</p>}
             open={show}
             onCancel={onDimiss}
             footer={null}

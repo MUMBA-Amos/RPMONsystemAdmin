@@ -1,19 +1,74 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
-export const UserFragment = gql`
-  fragment User on User {
+export const ProfileFragment = gql`
+  fragment Profile on Profile {
     _id
-    referralId
-    idNumber
-    username
-    name
-    kind
-    email
-    phoneNumber
-    active
-    roles
-    address
-    latitude
-    longitude
+    user {
+      titleId
+      genderId
+      nationalityId
+      idNumber
+      idTypeId
+      firstName
+      lastName
+      username
+      name
+      email
+      phoneNumber
+      dateOfBirth
+      idType{
+        _id
+        name
+      }
+      title{
+        _id
+        name
+      }
+      gender{
+        _id
+        name
+      }
+      nationality{
+        _id
+        name
+      }
+    }
+    invitationId
+    officeNumber
+    residenceStatusId
+    organizationId
+    designationId
+    researchClusterIds
+    researchClusters{
+      _id
+      name
+    }
+    residenceStatus {
+      _id
+      name
+    }
+    designation {
+      _id
+      name
+    }
+    organization {
+      _id
+      name
+    }
+    sections {
+      name
+      role
+      contractType{
+        _id
+        name
+      }
+      institution
+      qualification
+      fieldOfStudy
+      description
+      fromDate
+      toDate
+      kind
+    }
   }
 `;

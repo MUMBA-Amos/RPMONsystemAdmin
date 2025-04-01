@@ -7,11 +7,10 @@ export const DEFAULT_PAGE_SIZE = 50;
 export const DEFAULT_CURRENCY = 'MYR';
 
 export enum ApRoleTypes {
-  SuperAdmin = 'SuperAdmin',
-  StoreAdmin = 'StoreAdmin',
-  Member = 'Member',
-  Admin = 'Admin',
-  Staff = 'Staff'
+  SRDCAdmin = 'SRDCAdmin',
+  SRDCReviewer = 'SRDCReviewer',
+  OrganizationAdmin = 'OrganizationAdmin',
+  Researcher = 'Researcher'
 }
 
 export const ApRoute = {
@@ -25,8 +24,6 @@ export const AP_DATE_TIME_FORMAT = 'DD MMM YYYY hh:mm a';
 export const AP_DATE_FORMAT = 'DD MMM YYYY';
 export const AP_TIME_FORMAT = 'hh:mm a';
 export const AP_CALENDAR_DATE_FORMAT = 'DD/MM/YYYY'; //['DD/MM/YYYY', 'DD/MM/YY', 'DD-MM-YYYY', 'DD-MM-YY'];
-
-
 
 export const PHONE_VALIDATION =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -63,7 +60,7 @@ export { AP_END_POINTS, USER_ACCESS };
  * item pricing
  * permission (should be under setup)
  * item/id pages also
- * invoice 
+ * invoice
  * receipt
  * employee/id/order
  * setup

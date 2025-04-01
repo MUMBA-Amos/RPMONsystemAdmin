@@ -1,4 +1,4 @@
-import { AP_DATE_TIME_FORMAT } from '@/constants';
+import { AP_DATE_FORMAT, AP_DATE_TIME_FORMAT } from '@/constants';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import Moment from 'react-moment';
@@ -28,7 +28,7 @@ export const ApDateTime: React.FC<IProps> = (props: IProps) => {
   return (
     <Moment
       local
-      format={format || AP_DATE_TIME_FORMAT}
+      format={format || AP_DATE_FORMAT}
       className={className}
       duration={duration}
       date={dt}

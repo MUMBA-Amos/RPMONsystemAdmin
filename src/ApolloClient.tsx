@@ -83,10 +83,9 @@ const client = new ApolloClient({
 export default client;
 
 export const getGqlClient = () => {
-
-  return new GraphQLClient(`${ApSsrGlobal.getInstance().serverAddress}/graphql`, {
+  return new GraphQLClient(`${ApSsrGlobal.getInstance().serverAddress}/graphql/`, {
     credentials: 'include',
     cache: 'no-cache',
-    errorPolicy: 'all'
-  }).setHeader('Authorization', `Bearer ${ApSsrGlobal.getInstance().accessToken}`);
+    errorPolicy: 'all',
+  }).setHeader('Authorization', `Bearer ${ApSsrGlobal.getInstance()?.accessToken}`);
 };

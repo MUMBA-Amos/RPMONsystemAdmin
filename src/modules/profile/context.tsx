@@ -1,35 +1,25 @@
-import React, { useState } from "react";
-import { createContext } from "react";
-import { toastSvc } from "../../services";
-import {
-  useChangePassword,
-  useProfilePage,
-  useUpdateProfile,
-} from "./gql/query";
-import { IProfile, ProfilePages } from "./model";
+import React, { useState } from 'react';
+import { createContext } from 'react';
+import { toastSvc } from '../../services';
+import { IProfile } from './model';
+import { useProfileQuery } from './gql/query';
 
 interface IProfileState {
   loading: boolean;
-  updateLoading: boolean;
-  fetchProfilePage: () => void;
-  handleSetCurrentProfilePage: (page: string) => void;
+  updating: boolean;
   profile: IProfile;
-  updateProfile: (values: any) => void;
+  setProfile: (profile: IProfile) => void;
+  fetchProfile: () => void;
+  createProfile: (payload: IProfile) => Promise<IProfile>;
+  updateProfile: (_id: string, payload: IProfile) => Promise<IProfile>;
 }
 
-const ProfileContext = createContext<IProfileState>({
-  loading: true,
-  updateLoading: false,
-  fetchProfilePage() {},
-  handleSetCurrentProfilePage(page) {},
-  profile: {},
-  updateProfile(values: any) {},
-} as IProfileState);
+const ProfileContext = createContext<IProfileState | undefined>(undefined);
 
 export const useProfileState = () => {
   const context = React.useContext(ProfileContext);
   if (context === undefined) {
-    throw new Error("app dispatch must be used within app global provider");
+    throw new Error('app dispatch must be used within app global provider');
   }
 
   return context;
@@ -37,79 +27,58 @@ export const useProfileState = () => {
 interface IProps {
   children: React.ReactNode;
 }
+
 export const ProfileContextProvider: React.FC<IProps> = ({ children }) => {
+  const profileQuery = useProfileQuery();
   const [profile, setProfile] = useState<IProfile>({} as any);
-  const [updateLoading, setUpdateLoading] = useState(false);
+  const [profiles, setProfiles] = useState<IProfile[]>([]);
+  const [updating, setUpdating] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const [fetchProfile, { loading }] = useProfilePage((res: any) => {
-    setProfile(res);
-  });
-
-  const updateQuery = useUpdateProfile((res: any) => {
-    toastSvc.success("Profile updated");
-  });
-
-  const updatePasswordQuery = useChangePassword((res: any) => {
-    toastSvc.success("Password updated");
-  });
-
-  const fetchProfilePage = () => {
-    fetchProfile();
-  };
-
-  const handleSetCurrentProfilePage = (page: string) => {};
-
-  const updateProfile = (values: any) => {
-    setUpdateLoading(true);
-    const payload = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      phoneNumber: values.phoneNumber,
-      email: values.email,
-      otherName: values.otherName,
-      username: values.username,
-    };
-
-    if (profile?.id) {
-      updateQuery[0]({
-        variables: {
-          account: {
-            ...payload,
-          },
-        },
-      }).then((rs) => {
-        setUpdateLoading(false);
-        setProfile(rs?.data?.updateAccount);
-      });
-    }
-  };
-
-  const updatePassword = (values: any): Promise<String> => {
-
-    let req = null;
-    setUpdateLoading(true);
-    req = updatePasswordQuery[0]({
-      variables: {
-        password: { ...values },
-      },
-    }).finally(() => {
-      setUpdateLoading(false);
+  const fetchProfile = async (): Promise<IProfile[]> => {
+    return profileQuery.page().then((res) => {
+      const data = res?.data?.profilePage;
+      if (data) {
+        setProfiles(data?.data);
+        return data.data;
+      }
+      return [];
     });
+  };
 
-    return req.then((res) => {
-      return res;
-    }) as any;
+  const createProfile = async (payload: IProfile): Promise<IProfile> => {
+    setUpdating(true);
+    return profileQuery
+      .create({ variables: { profile: payload } })
+      .then((res) => {
+        const data: IProfile = res?.data?.createProfile;
+        return data;
+      })
+      .finally(() => setUpdating(false));
+  };
+
+  const updateProfile = async (_id: string, payload: IProfile): Promise<IProfile> => {
+    setUpdating(true);
+    return profileQuery
+      .update({ variables: { _id, profile: payload } })
+      .then((res) => {
+        const data: IProfile = res?.data?.updateProfile;
+        setProfile(data)
+        return data;
+      })
+      .finally(() => setUpdating(false));
   };
 
   return (
     <ProfileContext.Provider
       value={{
         loading,
-        updateLoading,
-        fetchProfilePage,
-        handleSetCurrentProfilePage,
+        updating,
         profile,
+        fetchProfile,
+        createProfile,
         updateProfile,
+        setProfile
       }}
     >
       {children}

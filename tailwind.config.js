@@ -12,7 +12,7 @@ module.exports = konstaConfig({
   theme: {
     extend: {
       colors: {
-        primary: '#DAA520',
+        primary: '#022161',
         'alt-light': '#F9F9F9',
         'alt-dark': '#373633',
         light: '#fff',
